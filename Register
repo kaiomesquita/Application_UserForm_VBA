@@ -1,0 +1,55 @@
+Private Sub CommandButton1_Click()
+
+'linha após a última linha com valores
+linha = Range("A1").End(xlDown).Row + 1
+
+'Valor da caixa de texto
+Cells(linha, 1) = CaixaTexto_Nome.Value
+
+'Valor do Sexo
+If Masculino.Value = True Then
+    Cells(linha, 2) = "Masculino"
+Else
+    Cells(linha, 2) = "Feminino"
+End If
+
+'Valor da area
+Cells(linha, 3) = CaixaCombinacao_area.Value
+
+'Valor do cpf
+Cells(linha, 4) = CaixaTexto_Cpf.Value
+
+'Valor do salario
+Cells(linha, 5) = CaixaTexto_Salario.Value
+
+Range("A1:E1").Select
+    Selection.Copy
+    Range("A1").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Selection.PasteSpecial Paste:=xlPasteFormats, Operation:=xlNone, _
+        SkipBlanks:=False, Transpose:=False
+    Range("A4").Select
+
+Range("A1:E10000").Select
+    ActiveWorkbook.Worksheets("formulario").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("formulario").Sort.SortFields.Add2 Key:=Range( _
+        "A2:A5"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:= _
+        xlSortNormal
+    With ActiveWorkbook.Worksheets("formulario").Sort
+        .SetRange Range("A1:E10000")
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+    
+nome = CaixaTexto_Nome.Value
+area = CaixaCombinacao_area.Value
+
+Unload registro_funcionarios
+
+MsgBox ("O fucionário(a) " & nome & " foi cadastrado na área " & area)
+
+End Sub
