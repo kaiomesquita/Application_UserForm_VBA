@@ -1,0 +1,35 @@
+Sub formatacao()
+'
+' formatacao Macro
+'
+
+'
+    Range("A1:E1").Select
+    Selection.Copy
+    Range("A1").Select
+    Range(Selection, Selection.End(xlDown)).Select
+    Range(Selection, Selection.End(xlToRight)).Select
+    Selection.PasteSpecial Paste:=xlPasteFormats, Operation:=xlNone, _
+        SkipBlanks:=False, Transpose:=False
+    Range("A4").Select
+End Sub
+Sub ordenar()
+'
+' ordenar Macro
+'
+
+'
+    Range("A1:E5").Select
+    ActiveWorkbook.Worksheets("formulario").Sort.SortFields.Clear
+    ActiveWorkbook.Worksheets("formulario").Sort.SortFields.Add2 Key:=Range( _
+        "A2:A5"), SortOn:=xlSortOnValues, Order:=xlAscending, DataOption:= _
+        xlSortNormal
+    With ActiveWorkbook.Worksheets("formulario").Sort
+        .SetRange Range("A1:E5")
+        .Header = xlYes
+        .MatchCase = False
+        .Orientation = xlTopToBottom
+        .SortMethod = xlPinYin
+        .Apply
+    End With
+End Sub
